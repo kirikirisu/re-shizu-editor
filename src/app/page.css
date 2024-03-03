@@ -91,3 +91,32 @@ input {
   display: none;
   background: transparent;
 }
+
+.ProseMirror-focused {
+  outline: transparent;
+}
+
+figure.ProseMirror-selectednode.e-image {
+  img {
+    border: 3px solid rgba(159, 214, 255, 0.35);
+    box-sizing: border-box;
+  }
+}
+
+.button-toolbar {
+  display: flex;
+  gap: 0.875rem;
+  font-size: 0.9rem;
+
+  button {
+    width: 2rem;
+    height: 2rem;
+    background-color: white;
+    border-radius: 0.6rem;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    font-size: 0.65rem;
+  }
+}

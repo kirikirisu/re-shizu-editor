@@ -1,6 +1,6 @@
 import { Node } from "@tiptap/react";
 
-interface ImageAttributes {
+export interface ImageAttributes {
   "data-natural-width": string;
   "data-natural-height": string;
   "data-size": "default" | "small";

@@ -1,10 +1,12 @@
 "use client";
 
-import { BubbleMenu, useEditor, EditorContent } from "@tiptap/react";
+import { Editor, BubbleMenu, useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Footer } from "./Footer";
 import { Image } from "./ImageExtension";
+import { ImageToolbar } from "./ImageToolbar";
 import "./page.css";
+import { ImageFrameIcon } from "./icons/ImageFrameIcon";
 
 const extensions = [StarterKit, Image];
 
@@ -18,8 +20,17 @@ const Tiptap = () => {
 
   return (
     <>
+      <ImageFrameIcon color="#798184" />
       <EditorContent editor={editor} />
       <Footer editor={editor} />
+      <BubbleMenu editor={editor as Editor}>
+        {editor?.isActive("image") ? (
+          <ImageToolbar editor={editor} />
+        ) : (
+          <div>for link</div>
+        )}
+      </BubbleMenu>
+      :
     </>
   );
 };
