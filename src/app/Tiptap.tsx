@@ -19,7 +19,7 @@ const Tiptap = () => {
   return (
     <>
       <EditorContent editor={editor} />
-      <Footer />
+      <Footer editor={editor} />
     </>
   );
 };
