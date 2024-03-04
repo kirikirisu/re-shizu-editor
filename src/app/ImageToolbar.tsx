@@ -1,4 +1,5 @@
 import { Editor, isNodeSelection } from "@tiptap/react";
+import { useState, ChangeEvent } from "react";
 import { ImageAttributes } from "./ImageExtension";
 import { ExpandIcon } from "./icons/ExpandIcon";
 import { ShrinkIcon } from "./icons/ShrinkIcon";
@@ -8,6 +9,9 @@ const activeColor = "rgb(14 165 233)";
 const defaultColor = "#798184";
 
 export function ImageToolbar({ editor }: { editor: Editor }) {
+  const [visibleAltTextInput, setVisibleAtlTextInput] = useState(false);
+  const [altText, setAltText] = useState("");
+
   const { selection } = editor.state;
 
   if (!isNodeSelection(selection) || selection.node.type.name !== "image")
@@ -31,28 +35,68 @@ export function ImageToolbar({ editor }: { editor: Editor }) {
     });
   };
 
+  const handleVisibleAltTextInput = () => {
+    setVisibleAtlTextInput(true);
+    setAltText(imageAttrs.alt);
+  };
+
+  const handleChangeAltText = (e: ChangeEvent<HTMLInputElement>) => {
+    setAltText(e.target.value);
+  };
+
+  const applyAltText = () => {
+    editor.commands.updateAttributes("image", {
+      alt: altText,
+    });
+
+    setVisibleAtlTextInput(false);
+    setAltText("");
+  };
+
   return (
-    <div className="button-toolbar">
-      <button
-        type="button"
-        style={{ color: isActiveAlt ? activeColor : defaultColor }}
-      >
-        ALT
-      </button>
-      <button type="button" onClick={handleChangeSize}>
-        {isDefaultSize ? (
-          <ShrinkIcon color={defaultColor} height="1.8em" width="1.8em" />
-        ) : (
-          <ExpandIcon color={defaultColor} height="1.8em" width="1.8em" />
-        )}
-      </button>
-      <button type="button" onClick={handleChangeStyle}>
-        {isDefaultStyle ? (
-          <ImageFrameIcon color={defaultColor} height="1.8em" width="1.8em" />
-        ) : (
-          <ImageFrameIcon color={activeColor} height="1.8em" width="1.8em" />
-        )}
-      </button>
-    </div>
+    <>
+      {visibleAltTextInput ? (
+        <form onSubmit={applyAltText} className="alt-text">
+          <div>
+            <input value={altText} onChange={handleChangeAltText} />
+            <button type="submit" onClick={applyAltText}>
+              適用
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="button-toolbar">
+          <button
+            type="button"
+            style={{ color: isActiveAlt ? activeColor : defaultColor }}
+            onClick={handleVisibleAltTextInput}
+          >
+            ALT
+          </button>
+          <button type="button" onClick={handleChangeSize}>
+            {isDefaultSize ? (
+              <ShrinkIcon color={defaultColor} height="1.8em" width="1.8em" />
+            ) : (
+              <ExpandIcon color={defaultColor} height="1.8em" width="1.8em" />
+            )}
+          </button>
+          <button type="button" onClick={handleChangeStyle}>
+            {isDefaultStyle ? (
+              <ImageFrameIcon
+                color={defaultColor}
+                height="1.8em"
+                width="1.8em"
+              />
+            ) : (
+              <ImageFrameIcon
+                color={activeColor}
+                height="1.8em"
+                width="1.8em"
+              />
+            )}
+          </button>
+        </div>
+      )}
+    </>
   );
 }

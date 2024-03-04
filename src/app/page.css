@@ -84,10 +84,23 @@ strong {
   img {
     max-width: 100%;
     height: auto;
+    display: block;
   }
 }
 
-input {
+.e-image[data-size="small"] {
+  max-width: 82%;
+}
+
+.e-image[data-style="photo-frame"] {
+  transform: rotate(2deg) translateX(3px);
+  box-shadow: 0 3px 5px -2px rgba(0, 0, 0, 0.3), 0 0 1px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 8px solid #fff;
+  will-change: transform;
+}
+
+.insert-image-input {
   display: none;
   background: transparent;
 }
@@ -98,7 +111,7 @@ input {
 
 figure.ProseMirror-selectednode.e-image {
   img {
-    border: 3px solid rgba(159, 214, 255, 0.35);
+    border: 3px solid rgba(15, 193, 255, 0.4);
     box-sizing: border-box;
   }
 }
@@ -118,5 +131,51 @@ figure.ProseMirror-selectednode.e-image {
     border: 1px solid #e5e7eb;
     cursor: pointer;
     font-size: 0.65rem;
+  }
+}
+
+form.alt-text {
+  padding: 0.375rem;
+  border-radius: 0.48rem;
+  background-color: #fff;
+  border: 1px solid #e6e8e9;
+
+  > div {
+    display: flex;
+    border: 1px solid #e6e8e9;
+    border-radius: 0.48rem;
+  }
+
+  input {
+    width: 18rem;
+    line-height: 1.5;
+    font-size: 0.84rem;
+    padding: 0.375rem;
+    border: none;
+    background-color: #f1f6f9;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    color: rgba(3, 10, 18, 0.81);
+
+    &:focus-visible {
+      outline-width: 0;
+    }
+  }
+
+  button {
+    word-break: keep-all;
+    font-size: 0.8rem;
+    color: rgba(3, 10, 18, 0.81);
+    padding-inline: 0.5rem;
+    border-color: #e6e8e9;
+    cursor: pointer;
+    border: none;
+    background-color: #fff;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+
+    &:active {
+      color: rgb(14 165 233);
+    }
   }
 }

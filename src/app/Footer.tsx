@@ -63,6 +63,7 @@ export function Footer({ editor }: { editor: Editor | null }) {
         <span>Insert Image</span>
       </button>
       <input
+        className="insert-image-input"
         type="file"
         ref={inputRef}
         accept="image/png,image/jpeg,image/gif,image/webp,image/heic"
