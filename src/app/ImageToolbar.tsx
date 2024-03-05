@@ -56,12 +56,10 @@ export function ImageToolbar({ editor }: { editor: Editor }) {
   return (
     <>
       {visibleAltTextInput ? (
-        <form onSubmit={applyAltText} className="alt-text">
+        <form onSubmit={applyAltText} className="input-text">
           <div>
             <input value={altText} onChange={handleChangeAltText} />
-            <button type="submit" onClick={applyAltText}>
-              適用
-            </button>
+            <button type="submit">適用</button>
           </div>
         </form>
       ) : (

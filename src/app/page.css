@@ -134,7 +134,7 @@ figure.ProseMirror-selectednode.e-image {
   }
 }
 
-form.alt-text {
+form.input-text {
   padding: 0.375rem;
   border-radius: 0.48rem;
   background-color: #fff;
@@ -147,7 +147,7 @@ form.alt-text {
   }
 
   input {
-    width: 18rem;
+    width: 240px;
     line-height: 1.5;
     font-size: 0.84rem;
     padding: 0.375rem;
@@ -159,6 +159,10 @@ form.alt-text {
 
     &:focus-visible {
       outline-width: 0;
+    }
+
+    &::placeholder {
+      color: #a7abb1;
     }
   }
 
@@ -177,5 +181,24 @@ form.alt-text {
     &:active {
       color: rgb(14 165 233);
     }
+  }
+}
+
+.link-icon-button {
+  font-size: 0.9rem;
+  background-color: #fff;
+  border-radius: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgb(229, 231, 235);
+  cursor: pointer;
+  outline-width: 0;
+
+  svg {
+    display: block;
+    color: #798184;
   }
 }

@@ -58,17 +58,20 @@ export function Footer({ editor }: { editor: Editor | null }) {
   };
 
   return (
-    <div>
-      <button type="button" onClick={handleOnClcik}>
-        <span>Insert Image</span>
-      </button>
-      <input
-        className="insert-image-input"
-        type="file"
-        ref={inputRef}
-        accept="image/png,image/jpeg,image/gif,image/webp,image/heic"
-        onChange={handleOnChange}
-      />
-    </div>
+    <>
+      <div>
+        <button type="button" onClick={handleOnClcik}>
+          <span>Insert Image</span>
+        </button>
+        <input
+          className="insert-image-input"
+          type="file"
+          ref={inputRef}
+          accept="image/png,image/jpeg,image/gif,image/webp,image/heic"
+          onChange={handleOnChange}
+        />
+      </div>
+      <div>{editor?.storage.characterCount.characters()}</div>
+    </>
   );
 }
