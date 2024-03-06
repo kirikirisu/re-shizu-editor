@@ -29,21 +29,28 @@ const Tiptap = () => {
 
   if (!editor) return false;
 
-  const isSelectLink = editor.isActive("link");
   const isSelectImage = editor.isActive("image");
 
   return (
     <>
       <EditorContent editor={editor} />
       <Footer editor={editor} />
-      <BubbleMenu editor={editor}>
+      <BubbleMenu
+        editor={editor}
+        shouldShow={({ from, to }) => {
+          const isSelectImage = editor.isActive("image");
+          const isSelectLink = editor.isActive("link");
+          const isSelectRange = from !== to;
+
+          return isSelectImage || isSelectLink || isSelectRange;
+        }}
+      >
         {isSelectImage ? (
           <ImageToolbar editor={editor} />
         ) : (
           <BubbleLink editor={editor} />
         )}
       </BubbleMenu>
-      {isSelectLink && <div>modify link</div>}
     </>
   );
 };

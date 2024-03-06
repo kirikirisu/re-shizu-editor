@@ -10,11 +10,48 @@ export function BubbleLink({ editor }: { editor: Editor }) {
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
 
     setVisibleUrlInput(false);
+    setUrl("");
   };
 
   const handleChangeUrl = (event: ChangeEvent<HTMLInputElement>) => {
     setUrl(event.target.value);
   };
+
+  const handleUnlink = () => {
+    editor.chain().focus().extendMarkRange("link").unsetLink().run();
+  };
+
+  const openLinkInput = () => {
+    const previousUrl = editor.getAttributes("link").href;
+
+    setVisibleUrlInput(true);
+    setUrl(previousUrl);
+  };
+
+  const isSelectedLink = editor.isActive("link");
+  if (isSelectedLink && !visibleUrlInput) {
+    const previousUrl = editor.getAttributes("link").href;
+
+    return (
+      <div className="modify-link-tooltip">
+        <a href={previousUrl} target="_blank" rel="noreferrer noopener">
+          {previousUrl}
+        </a>
+        <div>
+          <button type="button" onClick={openLinkInput}>
+            URLを編集
+          </button>
+          <button
+            type="button"
+            style={{ backgroundColor: "#f1f6f9" }}
+            onClick={handleUnlink}
+          >
+            解除
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
