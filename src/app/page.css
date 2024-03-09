@@ -240,3 +240,41 @@ form.input-text {
     line-height: 1.1;
   }
 }
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 100%;
+  padding: 1.5rem;
+  color: #8d9298;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.picture-icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem;
+  margin: 0;
+  border-width: 0;
+  background-color: #fff;
+  cursor: pointer;
+
+  /* > svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  } */
+
+  &:hover {
+    border-radius: 9999px;
+    background-color: #f1f6f9;
+
+    > svg {
+      color: #8d9298;
+    }
+  }
+}
