@@ -1,6 +1,7 @@
 "use client";
 
 import { Editor } from "@tiptap/react";
+import { Editor as CoreEditor } from "@tiptap/core";
 import { ChangeEvent, useRef } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { PictureIcon } from "./icons/PictureIcon";
@@ -16,57 +17,57 @@ const loadImage = (file: File) => {
   );
 };
 
+export const handleInsertImages = async (
+  inputFiles: FileList,
+  editor: Editor | CoreEditor
+) => {
+  const formData = new FormData();
+  const imageElementPromiseList: Promise<{
+    fileName: string;
+    image: HTMLImageElement;
+  }>[] = [];
+  for (let i = 0; i < inputFiles.length; i++) {
+    const file = inputFiles[i];
+
+    formData.append(`file-${i}`, file, file.name);
+    imageElementPromiseList.push(loadImage(file));
+  }
+
+  try {
+    await fetch("http://localhost:3000/api", {
+      method: "POST",
+      body: formData,
+    });
+
+    const loadedImageList = await Promise.all(imageElementPromiseList);
+    for (const {
+      image: { naturalWidth, naturalHeight },
+      fileName,
+    } of loadedImageList) {
+      const src = `/upload/${fileName}`;
+
+      editor
+        .chain()
+        .focus()
+        .setImage({
+          "data-natural-height": naturalHeight,
+          "data-natural-width": naturalWidth,
+          "data-size": "default",
+          "data-style": "default",
+          src,
+          alt: "",
+          height: naturalHeight,
+          width: naturalWidth,
+        })
+        .run();
+    }
+  } catch (error) {
+    console.log("ERROR:", error);
+  }
+};
+
 export function Footer({ editor }: { editor: Editor }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const inputFiles = event.target.files;
-    if (!inputFiles) return;
-
-    const formData = new FormData();
-    const imageElementPromiseList: Promise<{
-      fileName: string;
-      image: HTMLImageElement;
-    }>[] = [];
-    for (let i = 0; i < inputFiles.length; i++) {
-      const file = inputFiles[i];
-
-      formData.append(`file-${i}`, file, file.name);
-      imageElementPromiseList.push(loadImage(file));
-    }
-
-    try {
-      await fetch("http://localhost:3000/api", {
-        method: "POST",
-        body: formData,
-      });
-
-      const loadedImageList = await Promise.all(imageElementPromiseList);
-      for (const {
-        image: { naturalWidth, naturalHeight },
-        fileName,
-      } of loadedImageList) {
-        const src = `/upload/${fileName}`;
-
-        editor
-          ?.chain()
-          .focus()
-          .setImage({
-            "data-natural-height": naturalHeight,
-            "data-natural-width": naturalWidth,
-            "data-size": "default",
-            "data-style": "default",
-            src,
-            alt: "",
-            height: naturalHeight,
-            width: naturalWidth,
-          })
-          .run();
-      }
-    } catch (error) {
-      console.log("ERROR:", error);
-    }
-  };
 
   const handleOnClcik = () => {
     if (inputRef && inputRef.current) {
@@ -93,7 +94,12 @@ export function Footer({ editor }: { editor: Editor }) {
           ref={inputRef}
           accept="image/png,image/jpeg,image/gif,image/webp,image/heic"
           multiple
-          onChange={handleOnChange}
+          onChange={(event) => {
+            const { files } = event.target;
+            if (!files) return;
+
+            handleInsertImages(files, editor);
+          }}
         />
       </div>
       <button

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tiptap/core": "^2.2.4",
     "@tiptap/extension-character-count": "^2.2.4",
     "@tiptap/extension-link": "^2.2.4",
     "@tiptap/pm": "^2.2.4",

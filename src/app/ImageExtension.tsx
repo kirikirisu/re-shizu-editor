@@ -1,4 +1,6 @@
 import { Node } from "@tiptap/react";
+import { Plugin, PluginKey } from "@tiptap/pm/state";
+import { handleInsertImages } from "./Footer";
 
 export interface ImageAttributes {
   "data-natural-width": string;
@@ -129,5 +131,27 @@ export const Image = Node.create({
           });
         },
     };
+  },
+
+  addProseMirrorPlugins() {
+    const editor = this.editor;
+    return [
+      new Plugin({
+        key: new PluginKey("dragAndDropImageHandler"),
+        props: {
+          handleDrop(_, event, __, moved) {
+            if (!moved && event.dataTransfer && event.dataTransfer.files) {
+              event.preventDefault();
+
+              handleInsertImages(event.dataTransfer.files, editor);
+
+              return true;
+            }
+
+            return false;
+          },
+        },
+      }),
+    ];
   },
 });

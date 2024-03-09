@@ -1,4 +1,3 @@
-// import { NextApiResponse } from "next";
 import { writeFile } from "fs/promises";
 
 export async function GET(request: Request) {
