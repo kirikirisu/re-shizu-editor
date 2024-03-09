@@ -97,12 +97,11 @@ export function Footer({ editor }: { editor: Editor }) {
         <CircularProgressbar
           value={charPercentage}
           text={charCount.toString()}
-          strokeWidth={6}
           styles={buildStyles({
             pathColor: "#696f73",
             trailColor: "#d8dadf",
             textColor: "rgb(141, 146, 152)",
-            textSize: "22",
+            textSize: "24",
           })}
         />
       </button>

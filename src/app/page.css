@@ -5,12 +5,14 @@ html {
   box-sizing: border-box;
 }
 
-.tiptap {
+.wrapper {
   max-width: 580px;
   width: 580px;
-  border-radius: 4px;
   margin: 0 auto;
-  padding: 10px;
+  padding: 6rem 2.5rem;
+}
+
+.tiptap {
 }
 
 div.tiptap > ul {
@@ -264,11 +266,6 @@ form.input-text {
   background-color: #fff;
   cursor: pointer;
 
-  /* > svg {
-    width: 1.15rem;
-    height: 1.15rem;
-  } */
-
   &:hover {
     border-radius: 9999px;
     background-color: #f1f6f9;
@@ -276,5 +273,23 @@ form.input-text {
     > svg {
       color: #8d9298;
     }
+  }
+}
+
+.title-input {
+  height: 37px;
+  line-height: 1.85;
+  font-size: 1.25rem;
+  width: 100%;
+  resize: none;
+  border-width: 0;
+  color: rgba(3, 10, 18, 0.81);
+
+  &:focus-visible {
+    outline-width: 0;
+  }
+
+  &::placeholder {
+    color: rgba(3, 14, 20, 0.4);
   }
 }
