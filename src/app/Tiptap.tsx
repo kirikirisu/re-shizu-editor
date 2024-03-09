@@ -20,7 +20,7 @@ const extensions = [
   }),
 ];
 
-const content = `<p>Hello World!</p><figure class="e-image" data-natural-width="700" data-natural-height="400" data-size="default" data-style="default"><img src="https://placehold.jp/700x400.png" width="700" height="400" alt="sushi" /></figure>`;
+const content = `<p>Hello World!</p><figure class="e-image" data-natural-width="700" data-natural-height="400" data-size="default" data-style="default"><img src="https://placehold.jp/700x400.png" width="700" height="400" alt="sushi" /></figure><p>hoge</p>`;
 
 function TitleInput({ editor }: { editor: Editor }) {
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {

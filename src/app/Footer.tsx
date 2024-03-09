@@ -7,50 +7,64 @@ import { PictureIcon } from "./icons/PictureIcon";
 import "react-circular-progressbar/dist/styles.css";
 
 const loadImage = (file: File) => {
-  return new Promise<HTMLImageElement>((resolve) => {
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-    img.onload = () => resolve(img);
-  });
+  return new Promise<{ fileName: string; image: HTMLImageElement }>(
+    (resolve) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => resolve({ fileName: file.name, image: img });
+    }
+  );
 };
 
 export function Footer({ editor }: { editor: Editor }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files) return;
+    const inputFiles = event.target.files;
+    if (!inputFiles) return;
 
     const formData = new FormData();
-    formData.set("file", event.target.files[0]);
+    const imageElementPromiseList: Promise<{
+      fileName: string;
+      image: HTMLImageElement;
+    }>[] = [];
+    for (let i = 0; i < inputFiles.length; i++) {
+      const file = inputFiles[i];
 
-    const { naturalHeight, naturalWidth } = await loadImage(
-      event.target.files[0]
-    );
+      formData.append(`file-${i}`, file, file.name);
+      imageElementPromiseList.push(loadImage(file));
+    }
 
     try {
-      const response = await fetch("http://localhost:3000/api", {
+      await fetch("http://localhost:3000/api", {
         method: "POST",
         body: formData,
       });
-      const { fileName } = await response.json();
-      const src = `/upload/${fileName}`;
 
-      editor
-        ?.chain()
-        .focus()
-        .setImage({
-          "data-natural-height": naturalHeight,
-          "data-natural-width": naturalWidth,
-          "data-size": "default",
-          "data-style": "default",
-          src,
-          alt: "",
-          height: naturalHeight,
-          width: naturalWidth,
-        })
-        .run();
-    } catch (e) {
-      console.log("ERROR", e);
+      const loadedImageList = await Promise.all(imageElementPromiseList);
+      for (const {
+        image: { naturalWidth, naturalHeight },
+        fileName,
+      } of loadedImageList) {
+        const src = `/upload/${fileName}`;
+
+        editor
+          ?.chain()
+          .focus()
+          .setImage({
+            "data-natural-height": naturalHeight,
+            "data-natural-width": naturalWidth,
+            "data-size": "default",
+            "data-style": "default",
+            src,
+            alt: "",
+            height: naturalHeight,
+            width: naturalWidth,
+          })
+          .run();
+      }
+    } catch (error) {
+      console.log("ERROR:", error);
     }
   };
 
@@ -78,6 +92,7 @@ export function Footer({ editor }: { editor: Editor }) {
           type="file"
           ref={inputRef}
           accept="image/png,image/jpeg,image/gif,image/webp,image/heic"
+          multiple
           onChange={handleOnChange}
         />
       </div>

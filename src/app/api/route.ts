@@ -8,17 +8,23 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const data = await request.formData();
-  const file = data.get("file") as unknown as File;
+  const formDataValueList = Array.from(data.values());
 
-  if (!file) {
-    return Response.json({ success: false });
+  const writeFilePromiseList: Promise<void>[] = [];
+  for (const formDataValue of formDataValueList) {
+    if (typeof formDataValue === "object" && "arrayBuffer" in formDataValue) {
+      const file = formDataValue as unknown as File;
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const path = `${process.cwd()}/public/upload/${file.name}`;
+      writeFilePromiseList.push(writeFile(path, buffer));
+    }
   }
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
+  try {
+    await Promise.all(writeFilePromiseList);
 
-  const path = `${process.cwd()}/public/upload/${file.name}`;
-  await writeFile(path, buffer);
-
-  return Response.json({ success: true, fileName: `${file.name}` });
+    return Response.json({ success: true });
+  } catch (error) {
+    return Response.json({ success: false });
+  }
 }

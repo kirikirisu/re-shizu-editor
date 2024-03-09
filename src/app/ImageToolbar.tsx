@@ -79,19 +79,11 @@ export function ImageToolbar({ editor }: { editor: Editor }) {
             )}
           </button>
           <button type="button" onClick={handleChangeStyle}>
-            {isDefaultStyle ? (
-              <ImageFrameIcon
-                color={defaultColor}
-                height="1.8em"
-                width="1.8em"
-              />
-            ) : (
-              <ImageFrameIcon
-                color={activeColor}
-                height="1.8em"
-                width="1.8em"
-              />
-            )}
+            <ImageFrameIcon
+              color={isDefaultStyle ? defaultColor : activeColor}
+              height="1.8em"
+              width="1.8em"
+            />
           </button>
         </div>
       )}
