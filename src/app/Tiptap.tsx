@@ -12,7 +12,7 @@ import "./page.css";
 import { KeyboardEvent } from "react";
 
 const extensions = [
-  StarterKit,
+  StarterKit.configure({ heading: { levels: [2, 3] } }),
   Image,
   CharacterCount.configure({ limit: 18000 }),
   Link.configure({
