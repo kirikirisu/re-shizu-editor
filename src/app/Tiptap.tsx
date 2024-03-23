@@ -20,7 +20,7 @@ const extensions = [
   }),
 ];
 
-const content = `<p>Hello World!</p><figure class="e-image" data-natural-width="700" data-natural-height="400" data-size="default" data-style="default"><img src="https://placehold.jp/700x400.png" width="700" height="400" alt="sushi" /></figure><p>hoge</p>`;
+const content = `<h2>見出し</h2><h3>小見出し</h3><p></p><p>テ<strong>キストテキ</strong>ストテキストテキストテキストテキスト</p><p><a target="_blank" rel="noopener noreferrer nofollow" href="https://kiriri.net">foobarリンク</a></p><p></p><figure class="e-image" data-natural-width="700" data-natural-height="400" data-size="default" data-style="default"><img src="https://placehold.jp/700x400.png" alt="sushi" height="400" width="700"></figure><ul><li><p>hoge</p><ul><li><p>huga</p></li></ul></li></ul><ol><li><p>hana</p><ol><li><p>hoji</p></li><li><p>hoji</p></li></ol></li></ol><blockquote><p>hoge</p><blockquote><p>huga</p></blockquote></blockquote><p>ああ</p>`;
 
 function TitleInput({ editor }: { editor: Editor }) {
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
