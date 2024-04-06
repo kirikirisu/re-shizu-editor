@@ -1,7 +1,6 @@
 import { writeFile } from "fs/promises";
 
 export async function GET(request: Request) {
-  console.log("BODY", request.body);
   return Response.json({ message: "hello world" });
 }
 

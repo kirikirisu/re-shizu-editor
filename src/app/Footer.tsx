@@ -2,7 +2,7 @@
 
 import { Editor } from "@tiptap/react";
 import { Editor as CoreEditor } from "@tiptap/core";
-import { ChangeEvent, useRef } from "react";
+import { useRef } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { PictureIcon } from "./icons/PictureIcon";
 import "react-circular-progressbar/dist/styles.css";
@@ -34,7 +34,7 @@ export const handleInsertImages = async (
   }
 
   try {
-    await fetch("http://localhost:3000/api", {
+    await fetch("/api", {
       method: "POST",
       body: formData,
     });
